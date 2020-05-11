@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loterias/core/classes/singleton.dart';
 import 'package:loterias/core/services/loginservice.dart';
 import 'package:loterias/ui/login/login.dart';
+import 'package:loterias/ui/views/premios/ver.dart';
 import 'package:loterias/ui/views/principal/principal.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -34,11 +35,12 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     _mockCheckForSession().then((status){
-      if(status){
-        _navigateToHome();
-      }else{
-        _navigateToLogin();
-      }
+      // if(status){
+      //   _navigateToHome();
+      // }else{
+      //   _navigateToLogin();
+      // }
+      _navigateToVerPremios();
     });
   }
 
@@ -70,6 +72,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateToHome(){
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (BuildContext context) => PrincipalApp())
+    );
+  }
+
+  void _navigateToVerPremios(){
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (BuildContext context) => VerPremios())
     );
   }
   void _navigateToLogin(){

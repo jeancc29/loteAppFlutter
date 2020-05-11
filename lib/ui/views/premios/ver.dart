@@ -53,6 +53,17 @@ class _VerPremiosState extends State<VerPremios> {
                           ),
                         ),
                       ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          color: Colors.blue,
+                          child: Center(
+                            child: Text("20"),
+                          ),
+                        ),
+                      ),
                     ],)
                   ],
                 ),
