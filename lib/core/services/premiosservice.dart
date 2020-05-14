@@ -39,6 +39,38 @@ class PremiosService{
     return (parsed["loterias"] != null) ? parsed["loterias"].map<Loteria>((json) => Loteria.fromMap(json)).toList() : List<Loteria>();
   }
   
+  static Future<List<Loteria>> buscarPorFecha({BuildContext context, scaffoldKey, DateTime fecha, int idUsuario}) async {
+    var map = Map<String, dynamic>();
+    var mapDatos = Map<String, dynamic>();
+
+    map["fecha"] = fecha.toString();
+    map["idUsuario"] = idUsuario;
+    mapDatos["datos"] = map;
+
+    var response = await http.post(Utils.URL + "/api/premios/buscarPorFecha", body: json.encode(mapDatos), headers: Utils.header);
+    int statusCode = response.statusCode;
+
+    if(statusCode < 200 || statusCode > 400){
+      print("premiosService buscarPorFecha: ${response.body}");
+      if(context != null)
+        Utils.showAlertDialog(context: context, content: "Error del servidor premiosService buscarPorFecha", title: "Error");
+      else
+        Utils.showSnackBar(content: "Error del servidor premiosService buscarPorFecha", scaffoldKey: scaffoldKey);
+      throw Exception("Error del servidor premiosService buscarPorFecha");
+    }
+
+    var parsed = await compute(Utils.parseDatos, response.body);
+    if(parsed["errores"] == 1){
+      if(context != null)
+        Utils.showAlertDialog(context: context, content: parsed["mensaje"], title: "Error");
+      else
+        Utils.showSnackBar(content: parsed["mensaje"], scaffoldKey: scaffoldKey);
+      throw Exception("Error premiosService buscarPorFecha: ${parsed["mensaje"]}");
+    }
+
+    return (parsed["loterias"] != null) ? parsed["loterias"].map<Loteria>((json) => Loteria.fromMap(json)).toList() : List<Loteria>();
+  }
+  
   static Future<List<Loteria>> guardar({BuildContext context, scaffoldKey, Loteria loteria}) async {
     var map = Map<String, dynamic>();
     var mapDatos = Map<String, dynamic>();
